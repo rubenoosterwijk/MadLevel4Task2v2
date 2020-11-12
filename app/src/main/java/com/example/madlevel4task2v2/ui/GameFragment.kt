@@ -5,9 +5,15 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.madlevel4task2v2.R
+import com.example.madlevel4task2v2.model.Game
 import com.example.madlevel4task2v2.model.Game.Move
 import com.example.madlevel4task2v2.model.Game.Result
+import com.example.madlevel4task2v2.repository.GameRepository
 import kotlinx.android.synthetic.main.fragment_game.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 /**
@@ -15,9 +21,14 @@ import java.util.*
  */
 class GameFragment : Fragment() {
 
+
+    private lateinit var gameRepository: GameRepository
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        gameRepository = GameRepository(requireContext())
     }
 
     override fun onCreateView(
@@ -84,6 +95,8 @@ class GameFragment : Fragment() {
             Result.DRAW -> tvResult.text = getString(R.string.draw)
             Result.LOSE -> tvResult.text = getString(R.string.you_lose)
         }
+
+        addGameToDatabase(Game(Date(), computerMove, move, result))
     }
 
     private fun calculateResult (playerMove: Move, computerMove: Move): Result {
@@ -96,6 +109,14 @@ class GameFragment : Fragment() {
             Result.WIN
         } else {
             Result.LOSE
+        }
+    }
+
+    private fun addGameToDatabase(game: Game) {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                gameRepository.insertGame(game)
+            }
         }
     }
 
