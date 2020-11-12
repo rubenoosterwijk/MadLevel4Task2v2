@@ -1,13 +1,12 @@
 package com.example.madlevel4task2v2.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.madlevel4task2v2.R
-import com.example.madlevel4task2v2.model.Game
+import com.example.madlevel4task2v2.model.Game.Move
+import com.example.madlevel4task2v2.model.Game.Result
 import kotlinx.android.synthetic.main.fragment_game.*
 import java.util.*
 
@@ -54,14 +53,14 @@ class GameFragment : Fragment() {
     }
 
     private fun initGame() {
-        ivRock.setOnClickListener{ playGame(Game.Move.ROCK) }
-        ivPaper.setOnClickListener{ playGame(Game.Move.PAPER) }
-        ivScissors.setOnClickListener{ playGame(Game.Move.SCISSORS) }
+        ivRock.setOnClickListener{ playGame(Move.ROCK) }
+        ivPaper.setOnClickListener{ playGame(Move.PAPER) }
+        ivScissors.setOnClickListener{ playGame(Move.SCISSORS) }
     }
 
 
-    private fun playGame(move: Game.Move) {
-        val computerMove = Game.Move.values().toList().shuffled().first()
+    private fun playGame(move: Move) {
+        val computerMove = Move.values().toList().shuffled().first()
 
         val result = (calculateResult(move, computerMove))
 
@@ -81,22 +80,22 @@ class GameFragment : Fragment() {
         )
 
         when (result) {
-            1 -> tvResult.text = getString(R.string.you_win)
-            0 -> tvResult.text = getString(R.string.draw)
-            -1 -> tvResult.text = getString(R.string.you_lose)
+            Result.WIN -> tvResult.text = getString(R.string.you_win)
+            Result.DRAW -> tvResult.text = getString(R.string.draw)
+            Result.LOSE -> tvResult.text = getString(R.string.you_lose)
         }
     }
 
-    private fun calculateResult (playerMove: Game.Move?, computerMove: Game.Move?): Int {
+    private fun calculateResult (playerMove: Move, computerMove: Move): Result {
         return if (playerMove == computerMove) {
-            Game.Result.DRAW.value
-        } else if ((playerMove == Game.Move.ROCK && computerMove == Game.Move.SCISSORS) ||
-            (playerMove == Game.Move.PAPER && computerMove == Game.Move.ROCK) ||
-            (playerMove == Game.Move.SCISSORS && computerMove == Game.Move.PAPER)
+            Result.DRAW
+        } else if ((playerMove == Move.ROCK && computerMove == Move.SCISSORS) ||
+            (playerMove == Move.PAPER && computerMove == Move.ROCK) ||
+            (playerMove == Move.SCISSORS && computerMove == Move.PAPER)
         ) {
-            Game.Result.WIN.value
+            Result.WIN
         } else {
-            Game.Result.LOSS.value
+            Result.LOSE
         }
     }
 

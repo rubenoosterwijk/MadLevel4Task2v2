@@ -9,32 +9,27 @@ import java.util.*
 @Entity(tableName = "game_table")
 data class Game(
 
-    @ColumnInfo(name = "player_choice")
-    @DrawableRes val playerMove: Int,
+    @ColumnInfo(name = "date")
+    var date: Date,
 
-    @ColumnInfo(name = "computer_choice")
-    @DrawableRes val computerMove: Int,
+    @ColumnInfo(name = "move_computer")
+    var moveComputer: Move,
+
+    @ColumnInfo(name = "move_player")
+    var movePlayer: Move,
 
     @ColumnInfo(name = "result")
-    val result: Result?,
-
-    @ColumnInfo(name = "date")
-    val date: Date,
+    var result: Result,
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Long? = null
 ) {
-
-    enum class Result(val value: Int) {
-        WIN(1),
-        DRAW(0),
-        LOSS(-1)
+    enum class Move {
+        ROCK, PAPER, SCISSORS
     }
 
-    enum class Move {
-        ROCK,
-        PAPER,
-        SCISSORS
+    enum class Result {
+        LOSE, DRAW, WIN
     }
 }
