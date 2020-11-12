@@ -13,10 +13,16 @@ import androidx.navigation.fragment.findNavController
  */
 class GameFragment : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        (activity as MainActivity).supportActionBar?.title = "Rock Paper Scissors"
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game, container, false)
     }

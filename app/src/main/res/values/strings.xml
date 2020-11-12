@@ -22,4 +22,7 @@
     <string name="statistics">Win: %d  Draw: %d  Lose: %d</string>
     <string name="history">Your Game History</string>
     <string name="delete_history">delete history</string>
+
+    <string name="menu_history">History</string>
+    <string name="menu_delete">Delete</string>
 </resources>
