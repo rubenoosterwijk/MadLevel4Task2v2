@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.example.madlevel4task2v2.GameFragment"
+        android:name="com.example.madlevel4task2v2.ui.GameFragment"
         android:label="GameFragment"
         tools:layout="@layout/fragment_game">
         <action
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.example.madlevel4task2v2.HistoryFragment"
+        android:name="com.example.madlevel4task2v2.ui.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" >
         <action
