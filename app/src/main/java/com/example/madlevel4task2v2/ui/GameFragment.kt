@@ -64,6 +64,7 @@ class GameFragment : Fragment() {
     }
 
     private fun initGame() {
+        getStatisticsFromDatabase()
         ivRock.setOnClickListener{ playGame(Move.ROCK) }
         ivPaper.setOnClickListener{ playGame(Move.PAPER) }
         ivScissors.setOnClickListener{ playGame(Move.SCISSORS) }
@@ -97,6 +98,7 @@ class GameFragment : Fragment() {
         }
 
         addGameToDatabase(Game(Date(), computerMove, move, result))
+        getStatisticsFromDatabase()
     }
 
     private fun calculateResult (playerMove: Move, computerMove: Move): Result {
@@ -117,6 +119,20 @@ class GameFragment : Fragment() {
             withContext(Dispatchers.IO) {
                 gameRepository.insertGame(game)
             }
+        }
+    }
+
+    private fun getStatisticsFromDatabase() {
+        CoroutineScope(Dispatchers.Main).launch {
+            var wins = 0
+            var draws = 0
+            var losses = 0
+            withContext(Dispatchers.IO) {
+                wins = gameRepository.getNumberOfWins()
+                draws = gameRepository.getNumberOfDraws()
+                losses = gameRepository.getNumberOfLosses()
+            }
+            tvStatistics.text = getString(R.string.statistics, wins, draws, losses)
         }
     }
 

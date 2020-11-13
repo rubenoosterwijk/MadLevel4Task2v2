@@ -30,4 +30,10 @@ class GameRepository(context: Context) {
     suspend fun deleteAllGames() {
         gameDao.deleteAllGames()
     }
+
+    suspend fun getNumberOfWins() = gameDao.getNumberOfWins()
+
+    suspend fun getNumberOfDraws() = gameDao.getNumberOfDraws()
+
+    suspend fun getNumberOfLosses() = gameDao.getNumberOfLosses()
 }
